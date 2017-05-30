@@ -37,8 +37,17 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 <h5>Sample</h5>
 <code>
 <p>DiscoveryService discovery = new DiscoveryService();</p>
-<p>Discovery_Upnp upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,OnCompletedCallback)</p>
+<p>IDiscoveryService upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,OnCompletedCallback)</p>
+<p>upnpSearch.search(3000);</p>
+<p>OR</p>
+<p>IDiscoveryService WS_Search = new Discovery_WS(discovery.ActiveInterfaces,OnCompletedCallback)</p>
+<p>WS_Search.search(3000);</p>
+// The protocol service objects are of type <b>IDiscoveryService</b>, that requires a OnCompleted event property, bool IsRunning property and a Search(int TimeOutMillisec) method
 </code>
+
+<p>Each service object takes 2 arguments :</p>
+  1. <b>List&lt;networkInterface&gt;</b>, you can use the ActiveInterfaces property of the <b>DiscoveryService</b> instance
+  2. Callback of type <b>eOnDiscoveryCompleted(IList&lt;networkInterface&gt; Interfaces)</b> 
 
 The <b>networkInterface</b> instance has members :
 - Lanid (in case you have multiple interfaces installed on the system) 
