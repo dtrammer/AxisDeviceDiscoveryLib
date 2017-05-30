@@ -19,18 +19,25 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 <p>DiscoveryService discovery = new DiscoveryService(OnCompletedCallback);</p>
 <p>discovery.Search(3000);</p></code>
 
- 1. Declare a <b>DiscoveryService</b> object and pass it a Callback method that will be invoked on completion.
+1. Declare a <b>DiscoveryService</b> object and pass it a Callback method that will be invoked on completion.
     -  Callback is of type <b>eOnDiscoveryCompleted(IList&lt;networkInterface&gt; Interfaces)</b>
- 2. Then call the <b>Search(int TimeoutInMillisec)</b> method on the DiscoveryService reference
+2. Then call the <b>Search(int TimeoutInMillisec)</b> method on the DiscoveryService reference
 
 <p>The callback will be invoked on completion that occurs after the specified timeout in the <b>Search(...)</b> method it will be passed a List of <b>&lt;networkInterface&gt;</b> instances as parameter (representing the active network interfaces of the system), each <b>networkInterface</b> instance has a property of type <b>List&lt;deviceNetworkInfo&gt;</b> that contains the discovered device information.</p>
 
 <h4>Callback example :</h4>
 <code>
-<p>private void OnDiscoveryCompleted(List&lt;networkInterface&gt;)
+<p>private void OnDiscoveryCompleted(IList&lt;networkInterface&gt;)
 {</p>
 <p>//Do something with the results in the different Interfaces</p>
 <p>}</p>
+</code>
+
+<p>It's also possible to search with one specific protocol only by using the <b>Discovery_Upnp</b> and <b>Discovery_WS</b> objects</p>
+<h5>Sample</h5>
+<code>
+<p>DiscoveryService discovery = new DiscoveryService();</p>
+<p>Discovery_Upnp upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,OnCompletedCallback)</p>
 </code>
 
 The <b>networkInterface</b> instance has members :
