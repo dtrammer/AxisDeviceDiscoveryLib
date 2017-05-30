@@ -15,7 +15,7 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
   - UPNP is also enabled by default on Axis devices, by setting the MACVendorFilterPrefix (by default : "00408C|ACCC8E" for Axis devices) property to an empty string on the Discovery_Upnp service object, one can discover all UPNP enabled devices on a TCP/IP network (for ex: Other vendor cameras, Smart TV's, Smart phones etc ...)
   
 <H3>Usage sample</H3>
-<br><code>
+<code>
 <p>DiscoveryService discovery = new DiscoveryService(OnCompletedCallback);</p>
 <p>discovery.Search(3000);</p></code>
 
