@@ -21,13 +21,15 @@ See the unit test UC_DeviceDiscovery class of the UT_AxisDeviceDiscoveryLib proj
 
 <h4>DiscoveryService</h4>
 <table>
-  <th>Property</th><th>Description</th>
+<th>Property</th><th>Type</th><th>Description</th>
   <tr>
-    <td>List<networkInterface> ActiveInterfaces</td>
+    <td>List&lt;networkInterface&lt;</td>
+    <td>ActiveInterfaces</td>
     <td>List of active network interfaces of the system</td>
   </tr>
   <tr>
-    <td>Bool IsRunning</td>
+    <td>Bool</td>
+    <td>IsRunning</td>
     <td>Indicates if the discovery service is currently running</td>
   </tr>
 </table>
