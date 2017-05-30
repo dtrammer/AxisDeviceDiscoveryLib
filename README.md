@@ -24,7 +24,7 @@ Main service used for device network discovery
 <table>
 <th>Property</th><th>Type</th><th>Description</th>
   <tr>
-    <td>List&lt;networkInterface&lg;</td>
+    <td>List&lt;networkInterface&gt;</td>
     <td>ActiveInterfaces</td>
     <td>List of networkInterface objects representing active network interfaces of the system</td>
   </tr>
@@ -40,7 +40,7 @@ Represents an active network interfaces installed on the system
 <table>
 <th>Property</th><th>Type</th><th>Description</th>
   <tr>
-    <td>List&lt;deviceNetworkInfo&lg;</td>
+    <td>List&lt;deviceNetworkInfo&gt;</td>
     <td>ActiveInterfaces</td>
     <td>List of deviceNetworkInfo references</td>
   </tr>
