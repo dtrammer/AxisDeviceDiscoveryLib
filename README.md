@@ -58,7 +58,7 @@ Represents an active network interfaces installed on the system
   <tr>
     <td>List&lt;deviceNetworkInfo&gt;</td>
     <td>ActiveInterfaces</td>
-    <td>List of deviceNetworkInfo references</td>
+    <td>List of deviceNetworkInfo references, gets populated by the DiscoveryService </td>
   </tr>
   <tr>
     <td>String</td>
