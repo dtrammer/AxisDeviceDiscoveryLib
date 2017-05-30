@@ -1,3 +1,5 @@
+<style> b {color: Blue; } </style>
+
 # AxisDeviceDiscoveryLib
 C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based WS-Discovery protocol and UPNP Protocol
 
@@ -18,9 +20,9 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 <p>DiscoveryService discovery = new DiscoveryService(OnCompletedCallback);</p>
 <p>discovery.Search(3000);</p></code>
 
- 1. Declare a DiscoveryService object and pass it a Callback method that will be invoked on completion.
-    -  Callback is of type eOnDiscoveryCompleted(IList&lt;networkInterface&gt; Interfaces)
- 2. Then call the Search(int TimeoutInMillisec) method on the DiscoveryService reference
+ 1. Declare a <b>DiscoveryService</b> object and pass it a Callback method that will be invoked on completion.
+    -  Callback is of type <b>eOnDiscoveryCompleted(IList&lt;networkInterface&gt; Interfaces)</b>
+ 2. Then call the <b>Search(int TimeoutInMillisec)</b> method on the DiscoveryService reference
 
 <p>The callback will be invoked on completion that occurs after the specified timeout in the <b>Search(int)</b> method
 The callback will have a List of <b>&lt;networkInterface&gt;</b> instances representing the active network interfaces of the system, each networkInterface has a property of type <b>List&lt;deviceNetworkInfo&gt;</b> that contains the discovered device information.</p>
