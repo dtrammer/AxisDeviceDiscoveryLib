@@ -16,3 +16,18 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 <H3>Samples</H3>
 
 See the unit test UC_DeviceDiscovery class of the UT_AxisDeviceDiscoveryLib project for usage samples 
+
+<H3>Objects</H3>
+
+<h4>DiscoveryService</h4>
+<table>
+  <th>Property</th><th>Description</th>
+  <tr>
+    <td>List<networkInterface> ActiveInterfaces</td>
+    <td>List of active network interfaces of the system</td>
+  </tr>
+  <tr>
+    <td>Bool IsRunning</td>
+    <td>Indicates if the discovery service is currently running</td>
+  </tr>
+</table>
