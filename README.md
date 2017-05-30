@@ -15,36 +15,33 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
   
 <H3>Usage sample</H3>
 
-DiscoveryService discovery = new DiscoveryService(OnDiscoveryCompleted);
-discovery.Search(3000);
+<p>DiscoveryService discovery = new DiscoveryService(OnCompletedCallback);</p>
+<p>discovery.Search(3000);</p>
 
-//Callback method
-public void OnDiscoveryCompleted(IList<networkInterface> Interfaces)
+Declare a DiscoveryService object and pass it a Callback method that will be invoked on completion.
+  - Callback is of type eOnDiscoveryCompleted(IList<networkInterface> Interfaces)
+Then call the Search(int TimeoutInMillisec) method on the DiscoveryService reference
+
+The callback will be invoked on completion that occurs after the specified timeout in the Search(int) method
+The callback will have a List of &lt;networkInterface&gt; instances representing the active network interfaces of the system, each networkInterface has a property of type List&lt;deviceNetworkInfo&gt; that contains the discovered device information.
+
+Callback example :
+
+private void OnDiscoveryCompleted(List&lt;networkInterface&gt;)
 {
-  foreach (networkInterface ni in Interfaces)
-            {
-                Console.WriteLine("*** Interface : " + ni.Lanid + " local IP : " + ni.IPAddress + " - " + ni.DiscoveredDevices.Count + " devices ***\r\n");
-                foreach (deviceNetworkInfo dn in ni.DiscoveredDevices)
-                {
-                    Console.WriteLine("Model : " + dn.Model + "\r\nIPAddress : " + dn.IPAddress + "\r\nXAddress : " + dn.XAddress + "\r\nMacAddress : " + dn.MACAddress +"\r\n");
-                }
-            }
+  //Do something with the results in the different Interfaces
 }
 
-<H3>Main object</H3>
+The networkInterface instance has members :
+- Lanid (in case you have multiple interfaces installed on the system) 
+- IPAddress, the current IPv4 address used by the interface
+- type, representing the Data-link protocol either NetworkInterfaceType.Ethernet or NetworkInterfaceType.Wireless80211
+- DiscoveredDevices, a List of &lt;deviceNetworkInfo&gt; instances representing a discovered device on the network
 
-<h4>DiscoveryService</h4>
-Main service used for device network discovery
-<table>
-<th>Property type</th><th>Name</th><th>Description</th>
-  <tr>
-    <td>List&lt;networkInterface&gt;</td>
-    <td>ActiveInterfaces</td>
-    <td>List of networkInterface objects representing active network interfaces of the system</td>
-  </tr>
-  <tr>
-    <td>Bool</td>
-    <td>IsRunning</td>
-    <td>Indicates if the discovery service is currently running</td>
-  </tr>
-</table>
+The deviceNetworkInfo instance has members :
+- IPAddress, IPv4 address of the device
+- MACAddress
+- XAddress, onvif service address
+- Model, device model name
+
+For more usage sample, have a look at the UnitTest project
