@@ -22,7 +22,7 @@ See the unit test UC_DeviceDiscovery class of the UT_AxisDeviceDiscoveryLib proj
 <h4>DiscoveryService</h4>
 Main service used for device network discovery
 <table>
-<th>Property</th><th>Type</th><th>Description</th>
+<th>Property type</th><th>Name</th><th>Description</th>
   <tr>
     <td>List&lt;networkInterface&gt;</td>
     <td>ActiveInterfaces</td>
@@ -35,10 +35,26 @@ Main service used for device network discovery
   </tr>
 </table>
 
+<h4>Discovery_WS</h4>
+Represents an active network interfaces installed on the system
+<table>
+<th>Property type</th><th>Name</th><th>Description</th>
+  <tr>
+    <td>String</td>
+    <td>ProbeMessage</td>
+    <td>Message that is broadcasted on the network for WS-Discovery based devices</td>
+  </tr>
+  <tr>
+    <td>Event&lt;networkInterface,IList&lt;String&gt;&gt;</td>
+    <td>OnSearchCompleted</td>
+    <td>Callback that is invoked when service has finished searching</td>
+  </tr>
+</table>
+
 <h4>networkInterface</h4>
 Represents an active network interfaces installed on the system
 <table>
-<th>Property</th><th>Type</th><th>Description</th>
+<th>Property type</th><th>Name</th><th>Description</th>
   <tr>
     <td>List&lt;deviceNetworkInfo&gt;</td>
     <td>ActiveInterfaces</td>
