@@ -1,6 +1,4 @@
-<style> b {color: Blue; } </style>
-
-# AxisDeviceDiscoveryLib
+<h2>AxisDeviceDiscoveryLib</h2>
 C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based WS-Discovery protocol and UPNP Protocol
 
 <h3>Prerequisite & install</h3>
