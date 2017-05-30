@@ -21,11 +21,11 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 Declare a DiscoveryService object and pass it a Callback method that will be invoked on completion.
   - Callback is of type eOnDiscoveryCompleted(IList<networkInterface> Interfaces)
 Then call the Search(int TimeoutInMillisec) method on the DiscoveryService reference
-
+<br>
 The callback will be invoked on completion that occurs after the specified timeout in the Search(int) method
 The callback will have a List of &lt;networkInterface&gt; instances representing the active network interfaces of the system, each networkInterface has a property of type List&lt;deviceNetworkInfo&gt; that contains the discovered device information.
-
-Callback example :
+<br>
+<h4>Callback example :</h4>
 
 private void OnDiscoveryCompleted(List&lt;networkInterface&gt;)
 {
