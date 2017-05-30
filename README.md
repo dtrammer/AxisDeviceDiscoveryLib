@@ -24,7 +24,7 @@ Main service used for device network discovery
 <table>
 <th>Property</th><th>Type</th><th>Description</th>
   <tr>
-    <td>List&lt;networkInterface&lt;</td>
+    <td>List&lt;networkInterface&lg;</td>
     <td>ActiveInterfaces</td>
     <td>List of networkInterface objects representing active network interfaces of the system</td>
   </tr>
@@ -40,7 +40,7 @@ Represents an active network interfaces installed on the system
 <table>
 <th>Property</th><th>Type</th><th>Description</th>
   <tr>
-    <td>List&lt;deviceNetworkInfo&lt;</td>
+    <td>List&lt;deviceNetworkInfo&lg;</td>
     <td>ActiveInterfaces</td>
     <td>List of deviceNetworkInfo references</td>
   </tr>
@@ -57,6 +57,6 @@ Represents an active network interfaces installed on the system
     <tr>
     <td>NetworkInterfaceType</td>
     <td>type</td>
-    <td>Enum that specifies the type of network interfaces, either NetworkInterfaceType.Ethernet or NetworkInterfaceType.Wireless80211</td>
+    <td>Enum that specifies the type of network interface, either NetworkInterfaceType.Ethernet or NetworkInterfaceType.Wireless80211</td>
   </tr>
 </table>
