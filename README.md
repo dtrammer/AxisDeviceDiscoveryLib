@@ -26,12 +26,12 @@ The callback will have a List of <b>&lt;networkInterface&gt;</b> instances repre
 <br>
 <h4>Callback example :</h4>
 <code>
-private void OnDiscoveryCompleted(List&lt;networkInterface&gt;)
-{
-  //Do something with the results in the different Interfaces
-}
+<p>private void OnDiscoveryCompleted(List&lt;networkInterface&gt;)
+{</p>
+<p>//Do something with the results in the different Interfaces</p>
+<p>}</p>
 </code>
-
+<br>
 The <b>networkInterface</b> instance has members :
 - Lanid (in case you have multiple interfaces installed on the system) 
 - IPAddress, the current IPv4 address used by the interface
