@@ -40,10 +40,10 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 <p>DiscoveryService discovery = new DiscoveryService();</p>
 <p>IDiscoveryService upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,OnCompletedCallback)</p>
 <p>upnpSearch.search(3000);</p>
-<p>OR</p>
+<p><i>OR</i></p>
 <p>IDiscoveryService WS_Search = new Discovery_WS(discovery.ActiveInterfaces,OnCompletedCallback)</p>
 <p>WS_Search.search(3000);</p>
-// The protocol service objects are of type <b>IDiscoveryService</b>, that requires a OnCompleted event property, bool IsRunning property and a Search(int TimeOutMillisec) method
+<p><i>// The protocol service objects are of type <b>IDiscoveryService</b>, that requires a OnCompleted event property, bool IsRunning property and a Search(int TimeOutMillisec) method</i><p>
 </code>
 
 The <b>networkInterface</b> instance has members :
