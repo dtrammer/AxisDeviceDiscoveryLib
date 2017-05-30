@@ -45,4 +45,4 @@ The <b>deviceNetworkInfo</b> instance has members :
 - XAddress, onvif service address
 - Model, device model name
 
-For more usage sample, have a look at the UnitTest project
+For more usage samples, have a look at the UnitTest project
