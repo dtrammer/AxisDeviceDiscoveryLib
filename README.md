@@ -18,12 +18,12 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the SOAP based 
 <p>DiscoveryService discovery = new DiscoveryService(OnCompletedCallback);</p>
 <p>discovery.Search(3000);</p></code>
 <br>
-1. Declare a DiscoveryService object and pass it a Callback method that will be invoked on completion.
+ - Declare a DiscoveryService object and pass it a Callback method that will be invoked on completion.
   - Callback is of type eOnDiscoveryCompleted(IList&lt;networkInterface&gt; Interfaces)
-2. Then call the Search(int TimeoutInMillisec) method on the DiscoveryService reference
+ - Then call the Search(int TimeoutInMillisec) method on the DiscoveryService reference
 The callback will be invoked on completion that occurs after the specified timeout in the <b>Search(int)</b> method
 The callback will have a List of <b>&lt;networkInterface&gt;</b> instances representing the active network interfaces of the system, each networkInterface has a property of type <b>List&lt;deviceNetworkInfo&gt;</b> that contains the discovered device information.
-<br>
+
 <h4>Callback example :</h4>
 <code>
 <p>private void OnDiscoveryCompleted(List&lt;networkInterface&gt;)
@@ -31,7 +31,7 @@ The callback will have a List of <b>&lt;networkInterface&gt;</b> instances repre
 <p>//Do something with the results in the different Interfaces</p>
 <p>}</p>
 </code>
-<br>
+
 The <b>networkInterface</b> instance has members :
 - Lanid (in case you have multiple interfaces installed on the system) 
 - IPAddress, the current IPv4 address used by the interface
