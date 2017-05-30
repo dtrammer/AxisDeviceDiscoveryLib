@@ -37,7 +37,7 @@ The <b>networkInterface</b> instance has members :
 - IPAddress, the current IPv4 address used by the interface
 - type, representing the Data-link protocol either NetworkInterfaceType.Ethernet or NetworkInterfaceType.Wireless80211
 - DiscoveredDevices, a List of &lt;deviceNetworkInfo&gt; instances representing a discovered device on the network
-<br>
+
 The <b>deviceNetworkInfo</b> instance has members :
 - IPAddress, IPv4 address of the device
 - MACAddress
