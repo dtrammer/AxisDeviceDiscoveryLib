@@ -20,16 +20,43 @@ See the unit test UC_DeviceDiscovery class of the UT_AxisDeviceDiscoveryLib proj
 <H3>Objects</H3>
 
 <h4>DiscoveryService</h4>
+Main service used for device network discovery
 <table>
 <th>Property</th><th>Type</th><th>Description</th>
   <tr>
     <td>List&lt;networkInterface&lt;</td>
     <td>ActiveInterfaces</td>
-    <td>List of active network interfaces of the system</td>
+    <td>List of networkInterface objects representing active network interfaces of the system</td>
   </tr>
   <tr>
     <td>Bool</td>
     <td>IsRunning</td>
     <td>Indicates if the discovery service is currently running</td>
+  </tr>
+</table>
+
+<h4>networkInterface</h4>
+Represents an active network interfaces installed on the system
+<table>
+<th>Property</th><th>Type</th><th>Description</th>
+  <tr>
+    <td>List&lt;deviceNetworkInfo&lt;</td>
+    <td>ActiveInterfaces</td>
+    <td>List of deviceNetworkInfo references</td>
+  </tr>
+  <tr>
+    <td>String</td>
+    <td>IPAddress</td>
+    <td>Currently used IPv4 address of the interface</td>
+  </tr>
+  <tr>
+    <td>int</td>
+    <td>Lanid</td>
+    <td>ID automatically assigned by library to the current interface</td>
+  </tr>
+    <tr>
+    <td>NetworkInterfaceType</td>
+    <td>type</td>
+    <td>Enum that specifies the type of network interfaces, either NetworkInterfaceType.Ethernet or NetworkInterfaceType.Wireless80211</td>
   </tr>
 </table>
