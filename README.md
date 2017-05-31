@@ -35,7 +35,7 @@ C# Library to discover Axis devices on a TCP/IP network, it uses the Microsoft S
 
 <p>It's also possible to search with one specific protocol only, by using the <b>Discovery_Upnp</b> and <b>Discovery_WS</b> objects</p>
 
-<h5>Sample</h5>
+<h4>Sample</h4>
 <code>
 <p>DiscoveryService discovery = new DiscoveryService();</p>
 <p>IDiscoveryService upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,OnCompletedCallback)</p>
