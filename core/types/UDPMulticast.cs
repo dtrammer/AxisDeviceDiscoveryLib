@@ -2,17 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace AxisDeviceDiscoveryLib.core.types
 {
     public abstract class UDPMutlicast : IDiscoveryService
     {
-        private List<networkInterface> _interfaces;
-        private List<UDPSocket> _sockets = new List<UDPSocket>();
-        private Timer _discoveryTimeOut;
+        protected List<networkInterface> _interfaces;
+        protected List<UDPSocket> _sockets = new List<UDPSocket>();
 
         protected string _probeMessage;
         private int _multicastPort;
@@ -28,7 +25,7 @@ namespace AxisDeviceDiscoveryLib.core.types
             this.OnDiscoveryCompleted += OnDiscoveryCompleted;
         }
 
-        public void search(int TimeOut)
+        public virtual void search(int TimeOut)
         {
             if (string.IsNullOrEmpty(_multicastAddress))
                 throw new Exception("MULTICAST_ADDRESS_NOTSET");
@@ -45,17 +42,17 @@ namespace AxisDeviceDiscoveryLib.core.types
             foreach (networkInterface i in _interfaces)
             {
                 _sockets.Add(
-                    new UDPSocket(i, _multicastAddress , _multicastPort, new Action<networkInterface, IList<string>>(OnSearchCompleted))
+                    new UDPSocket(i, _multicastAddress , _multicastPort, OnSearchCompleted)
                 );
                 _sockets[_sockets.Count - 1].start(TimeOut, _probeMessage);
             }
         }
 
-        protected abstract void OnSearchCompleted(networkInterface Interface, IList<string> Responses);
+        protected abstract void OnSearchCompleted(networkInterface Interface, IList<Tuple<IPAddress,string>> Responses);
 
         protected void NotifyResultProcessingDone()
         {
-            if(_sockets.Count(z=> z._isRunning) == 0)
+            if(!_sockets.Any(z=> z._isRunning))
             {
                 IsRunning = false;
                 //Raise final event when all responses are received or when timeout reached

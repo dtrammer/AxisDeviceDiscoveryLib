@@ -17,14 +17,15 @@ namespace UT_AxisDeviceDiscoveryLib
 
             foreach (networkInterface x in discovery.ActiveInterfaces)
             {
-                Console.WriteLine(x.Lanid + " - " + x.type.ToString() + " - " + x.IPAddress);
+                Console.WriteLine(x.ToString());
             }
 
             Assert.IsTrue(discovery.ActiveInterfaces.Count > 0);
         }
 
         [TestMethod]
-        public void search_With_WSDiscovery()
+        //This is the default behaviour of the service is to include the local link addresses responses, LocalLink range "169.254.0.0/16"
+        public void search_With_WSDiscovery_include_local_linkAddresses()
         {
             DiscoveryService discovery = new DiscoveryService();
             Discovery_WS webSearch = new Discovery_WS(discovery.ActiveInterfaces , 
@@ -32,9 +33,9 @@ namespace UT_AxisDeviceDiscoveryLib
                 {
                     foreach (networkInterface ni in interfaces)
                     {
-                        Console.WriteLine("Interface : " + ni.Lanid + " ip : " + ni.IPAddress + " Devices found " + ni.DiscoveredDevices.Count + " :\r\n");
+                        Console.WriteLine(ni.ToString() + " :\r\n");
                         foreach (deviceNetworkInfo dn in ni.DiscoveredDevices)
-                            Console.WriteLine("Model : " + dn.Model + "\r\nIPAddress : " + dn.IPAddress + "\r\nXAddress : " + dn.XAddress + "\r\nMacAddress : " + dn.MACAddress);
+                            Console.WriteLine(dn.ToString() + "\r\n");
                     }
                 }
             );
@@ -48,17 +49,41 @@ namespace UT_AxisDeviceDiscoveryLib
         }
 
         [TestMethod]
-        public void search_With_UPNPDiscovery()
+        public void search_With_WSDiscovery_exclude_local_linkAddresses()
         {
             DiscoveryService discovery = new DiscoveryService();
-            Discovery_Upnp upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,
+            IDiscoveryService webSearch = new Discovery_WS(discovery.ActiveInterfaces,
                 (interfaces) =>
                 {
                     foreach (networkInterface ni in interfaces)
                     {
-                        Console.WriteLine("Interface : " + ni.Lanid + " ip : " + ni.IPAddress + " Devices found " + ni.DiscoveredDevices.Count + " :\r\n");
+                        Console.WriteLine(ni.ToString() + " :\r\n");
                         foreach (deviceNetworkInfo dn in ni.DiscoveredDevices)
-                            Console.WriteLine("Model : " + dn.Model + "\r\nIPAddress : " + dn.IPAddress + "\r\nXAddress : " + dn.XAddress + "\r\nMacAddress : " + dn.MACAddress);
+                            Console.WriteLine(dn.ToString() + "\r\n");
+                    }
+                },true
+            );
+
+            webSearch.search(3000);
+
+            while (webSearch.IsRunning) { }
+
+            //For test to be true it should be run with at least 1 device on the network
+            Assert.IsTrue(discovery.ActiveInterfaces.Count > 0 && discovery.ActiveInterfaces[0].DiscoveredDevices.Count > 0);
+        }
+
+        [TestMethod]
+        public void search_With_UPNPDiscovery()
+        {
+            DiscoveryService discovery = new DiscoveryService();
+            UDPMutlicast upnpSearch = new Discovery_Upnp(discovery.ActiveInterfaces,
+                (interfaces) =>
+                {
+                    foreach (networkInterface ni in interfaces)
+                    {
+                        Console.WriteLine(ni.ToString() + " :\r\n");
+                        foreach (deviceNetworkInfo dn in ni.DiscoveredDevices)
+                            Console.WriteLine(dn.ToString() + "\r\n");
                     }
                 }
             );
@@ -83,16 +108,15 @@ namespace UT_AxisDeviceDiscoveryLib
 
             foreach (networkInterface ni in Interfaces)
             {
-                Console.WriteLine("*** Interface : " + ni.Lanid + " local IP : " + ni.IPAddress + " - " + ni.DiscoveredDevices.Count + " devices ***\r\n");
+                Console.WriteLine(ni.ToString() + " " + ni.DiscoveredDevices.Count + " devices ***\r\n");
                 foreach (deviceNetworkInfo dn in ni.DiscoveredDevices)
                 {
-                    Console.WriteLine("Model : " + dn.Model + "\r\nIPAddress : " + dn.IPAddress + "\r\nXAddress : " + dn.XAddress + "\r\nMacAddress : " + dn.MACAddress +"\r\n");
+                    Console.WriteLine(dn.ToString() +"\r\n");
                 }
             }
 
             //For test to be true there should be one active interface and it should be run with at least 1 device on the network
             Assert.IsTrue(Interfaces[0].DiscoveredDevices.Count > 0);
         }
-
     }
 }

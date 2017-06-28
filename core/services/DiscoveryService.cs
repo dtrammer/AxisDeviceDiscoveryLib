@@ -1,15 +1,10 @@
-﻿
-using AxisDeviceDiscoveryLib.core.services;
-using AxisDeviceDiscoveryLib.core.types;
+﻿using AxisDeviceDiscoveryLib.core.types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 
 
 
@@ -26,7 +21,6 @@ namespace AxisDeviceDiscoveryLib.core.services
     {
         #region private members
         private IList<IDiscoveryService> _discoveryServices = new List<IDiscoveryService>();
-        private IList<IList<string>> _discoveryServicesResults = new List<IList<string>>();
         private eOnDiscoveryCompleted _onDiscoveryCompleted;
         #endregion
 
@@ -65,7 +59,7 @@ namespace AxisDeviceDiscoveryLib.core.services
             //Get local active network interfaces
             set_NetworkInterfaces();
             //Add discovery services
-            _discoveryServices.Add(new Discovery_WS(ActiveInterfaces , OnDiscoveryServiceCompleted));
+            _discoveryServices.Add(new Discovery_WS(ActiveInterfaces, OnDiscoveryServiceCompleted));
             _discoveryServices.Add(new Discovery_Upnp(ActiveInterfaces, OnDiscoveryServiceCompleted));
         }
         private void set_NetworkInterfaces()
@@ -100,7 +94,6 @@ namespace AxisDeviceDiscoveryLib.core.services
         public void Search(int TimeOut)
         {
             IsRunning = true;
-            _discoveryServicesResults.Clear();
             foreach (IDiscoveryService dm in this._discoveryServices)
                 Task.Factory.StartNew(()=> { dm.search(TimeOut);});
         }
@@ -110,8 +103,11 @@ namespace AxisDeviceDiscoveryLib.core.services
         //Callback invoked by the Discovery Services method on completion
         private void OnDiscoveryServiceCompleted(IList<networkInterface> Interfaces)
         {
-            if (_discoveryServices.Count(x=> x.IsRunning == true) == 0)
+            if (!_discoveryServices.Any(x=> x.IsRunning))
             {
+                foreach (networkInterface ni in Interfaces)
+                    ni.DiscoveredDevices = ni.DiscoveredDevices.OrderByIPAscending();
+
                 _onDiscoveryCompleted.Invoke(ActiveInterfaces);
                 IsRunning = false;
             }

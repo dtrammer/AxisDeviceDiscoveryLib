@@ -1,14 +1,9 @@
-﻿using AxisDeviceDiscoveryLib.core.services;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace AxisDeviceDiscoveryLib.core.types
 {
@@ -21,7 +16,7 @@ namespace AxisDeviceDiscoveryLib.core.types
         private networkInterface _interface;
         private int _multicastPort;
         private List<UdpReceiveResult> _discoveryResponses = new List<UdpReceiveResult>();
-        private Action<networkInterface,IList<string>> _onDiscoveryCompleted;
+        private Action<networkInterface,IList<Tuple<IPAddress,string>>> _onDiscoveryCompleted;
         private CancellationTokenSource _cts;
         private string _multicastAddress;
         #endregion
@@ -34,7 +29,7 @@ namespace AxisDeviceDiscoveryLib.core.types
         /// <param name="Interface">The local NIC</param>
         /// <param name="Port">Port to listen on for incoming UDP packets</param>
         /// <param name="OnCompleted">Action<networkInterface> event that is raised when listening is Completed</param>
-        public UDPSocket(networkInterface Interface , string MulticastAddress, int MultiCastPort, Action<networkInterface,IList<string>> OnCompleted)
+        public UDPSocket(networkInterface Interface , string MulticastAddress, int MultiCastPort, Action<networkInterface, IList<Tuple<IPAddress, string>>> OnCompleted)
         {
             _interface = Interface;
             _multicastAddress = MulticastAddress;
@@ -91,14 +86,14 @@ namespace AxisDeviceDiscoveryLib.core.types
             _cts.Cancel();
             _isRunning = false;
             ////process the responses
-            List<string> responses = new List<string>();
+            List<Tuple<IPAddress,string>> responses = new List<Tuple<IPAddress, string>>();
 
             foreach (UdpReceiveResult s in this._discoveryResponses)
             {
                 if (s.Buffer != null && s.Buffer.Length > 0)
                 {
                     var response = Encoding.UTF8.GetString(s.Buffer);
-                    responses.Add(response);
+                    responses.Add(new Tuple<IPAddress, string>(s.RemoteEndPoint.Address, response));
                 }
             }
 

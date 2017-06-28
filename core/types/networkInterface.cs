@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AxisDeviceDiscoveryLib.core.types
@@ -12,24 +14,51 @@ namespace AxisDeviceDiscoveryLib.core.types
     /// </summary>
     public class networkInterface
     {
-        public int Lanid;
-        public NetworkInterfaceType type;
-        public string IPAddress;
+        private ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
+
+        private string _vendorMACFilter = "00408C|ACCC8E";
+        public string VendorMACfilter { get { return _vendorMACFilter; } set { _vendorMACFilter = value; } }
+
+        public int Lanid { get; set; }
+        public NetworkInterfaceType type { get; set; }
+        public string IPAddress { get; set; }
         public List<deviceNetworkInfo> DiscoveredDevices = new List<deviceNetworkInfo>();
 
-        public void add_DeviceInfo(deviceNetworkInfo Info)
+        public void add_DeviceInfo(deviceNetworkInfo NewInfo)
         {
-            var existingInfo = DiscoveredDevices.Where(x => x.IPAddress == Info.IPAddress).FirstOrDefault();
+            this._lock.EnterWriteLock();
+
+            var existingInfo = DiscoveredDevices.Where(x => x.IPaddress.ToString() == NewInfo.IPaddress.ToString()).FirstOrDefault();
+
             if (existingInfo == null)
-                DiscoveredDevices.Add(Info);
+            {
+                //Resolve the mac address
+                try
+                {
+                    NewInfo.MACAddress = ExtensionMethods.getMACAddress(NewInfo.IPaddress);
+                }catch(Exception ex)
+                {
+                    NewInfo.MACAddress = "Could not resolve address";
+                }
+                if (!string.IsNullOrEmpty(VendorMACfilter) && Regex.IsMatch(NewInfo.MACAddress.ToUpper(), VendorMACfilter))
+                    DiscoveredDevices.Add(NewInfo);
+
+            }
             else
             {
-                //See if other info could be populated based on results of different discovery services
-                if (string.IsNullOrEmpty(existingInfo.MACAddress) && !string.IsNullOrEmpty(Info.MACAddress))
-                    existingInfo.MACAddress = Info.MACAddress;
-                if (string.IsNullOrEmpty(existingInfo.XAddress) && !string.IsNullOrEmpty(Info.XAddress))
-                    existingInfo.XAddress = Info.XAddress;
+                //Check if other info could be added
+                if (string.IsNullOrEmpty(existingInfo.ONVIFXAddress) && !string.IsNullOrEmpty(NewInfo.ONVIFXAddress))
+                    existingInfo.ONVIFXAddress = NewInfo.ONVIFXAddress;
+                if (string.IsNullOrEmpty(existingInfo.UPNPServiceAddress) && !string.IsNullOrEmpty(NewInfo.UPNPServiceAddress))
+                    existingInfo.UPNPServiceAddress = NewInfo.UPNPServiceAddress;
             }
+
+            this._lock.ExitWriteLock();
+        }
+
+        public override string ToString()
+        {
+            return "Lanid : " + Lanid + " IPAddress : " + IPAddress + " DataLink type : " + type.ToString();
         }
     }
 }
